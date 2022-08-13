@@ -1,4 +1,4 @@
-# Creating a platform for sharing and viewing cooking Recipes
+# Creating an app for viewing and creating cooking recipes
 
 This app helps you view recipes as shown here, and you can view it in detail once you click "Cook This"
 
