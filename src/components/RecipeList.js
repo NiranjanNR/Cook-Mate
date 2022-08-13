@@ -2,10 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const RecipeList = ({ data }) => {
+
+    if(data.length===0){
+        return <div className='text-2xl text-center mt-10'>No recipes to load...</div>
+    }
+
     return (
         <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 m-3'>
             {data.map(it =>
-                <div className='hover:rotate-3 duration-500 text-left m-3 my-4 pb-8 bg-slate-100 rounded-xl drop-shadow-xl p-3'>
+                <div key={it.id} className='hover:rotate-3 duration-500 text-left m-3 my-4 pb-8 bg-slate-100 rounded-xl drop-shadow-xl p-3'>
                     <div className='text-3xl font-semibold m-2 mb-2'>{it.title}</div>
                     <div className='text-2xl text-gray-600 font-semibold m-2 mb-2'>{it.cookingTime} to make</div>
                     <div>{it.ingredients.map(i => <div>{i}</div>)}</div><br />

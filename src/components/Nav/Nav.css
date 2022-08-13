@@ -2,3 +2,13 @@ nav{
     background-color: rgba(0, 255, 128, 0.609);
     margin: 0px 8px 0px 8px;
 }
+.nav{
+    background-color: rgb(0, 255, 128);
+    margin: 0px 8px 0px 8px;
+}
+.setHW{
+    height: 100px;
+}
+.setW{
+    width: 100px;
+}

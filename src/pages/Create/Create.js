@@ -1,6 +1,8 @@
 import './Create.css'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { useFetch } from '../../hooks/useFetch'
+import { useHistory } from 'react-router-dom'
 
 const Create = () => {
 
@@ -9,19 +11,35 @@ const Create = () => {
   const [cookingTime, setCookingTime] = useState('')
   const [newIngredient, setNewIngredient] = useState('')
   const [ingredients, setIngredient] = useState([])
+  const [ingredientFlag, setIngredientFlag] = useState(0)
+
+  const ingredientInput = useRef(null)
+
+  const history=useHistory()
+
+  const { postData, data } = useFetch('http://localhost:3000/recipes', "POST")
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(title)
+    postData({ title, ingredients, method, cookingTime:cookingTime+' minutes' })
   }
 
-  const handleClickAdd = () => {
-    if (newIngredient !== '') {
+  const handleClickAdd = (e) => {
+    if (newIngredient && !ingredients.includes(newIngredient)) {
       setIngredient([...ingredients, newIngredient])
-      setNewIngredient('')
       console.log(ingredients)
+      setIngredientFlag(1)
     }
+    setNewIngredient('')
+    ingredientInput.current.focus()
   }
+
+  useEffect(() => {
+    if(data){
+      history.push('/')
+    }
+  }, [data,history])
+  
 
   return (
     <div className=''>
@@ -43,8 +61,11 @@ const Create = () => {
 
           <label>
             <div className='text-xl mt-4 flex justify-center'>
-              <div className='mt-1'>Enter Ingredients : <input value={newIngredient} required className='text-xl rounded-md py-1 px-3' onChange={(e) => { setNewIngredient(e.target.value) }} /></div>
+              <div className='mt-1'>Enter Ingredients : <input value={newIngredient} className='text-xl rounded-md py-1 px-3' onChange={(e) => { setNewIngredient(e.target.value) }} ref={ingredientInput} /></div>
               <div className='bg-slate-300 hover:bg-slate-400  text-4xl pb-1 pl-2 ml-3 rounded-lg pr-2 flex text-center'><button onClick={handleClickAdd}>+</button></div>
+            </div>
+            <div className='text-slate-500'>
+              {ingredientFlag ? <div>Current ingredients: {ingredients + ','}</div> : <></>}
             </div>
           </label>
 
@@ -59,9 +80,7 @@ const Create = () => {
           </div>
 
         </form>
-        {title}
-        {cookingTime}
-        {ingredients}
+
       </div>
     </div>
   )
